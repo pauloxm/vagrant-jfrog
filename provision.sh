@@ -26,9 +26,8 @@ sudo apt-get update && sudo apt-get install jfrog-artifactory-jcr nginx -y
 systemctl start artifactory
 systemctl enable artifactory
 
-## Configuração do NGinx
+## Configuração do Nginx
 
-<<<<<<< HEAD
 apt-get install nginx -y
 
 cat <<EOF | tee /etc/nginx/sites-available/jfrog.conf
@@ -62,7 +61,6 @@ server {
 }
 EOF
 
-<<<<<<< HEAD
 cat <<EOF | tee /etc/nginx/conf.d/custom.conf
 client_max_body_size 100M;
 EOF
@@ -178,7 +176,5 @@ GjmXO4iLOtj4Twc+UBBIKfHY0dZLSdRBIRxX84DDQBaMXi5E9SDy6g==
 -----END RSA PRIVATE KEY-----
 EOF
 
-=======
->>>>>>> refs/remotes/origin/main
 ln -s /etc/nginx/sites-available/jfrog.conf /etc/nginx/sites-enabled/
 systemctl restart nginx
