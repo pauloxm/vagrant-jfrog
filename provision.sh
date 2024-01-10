@@ -53,57 +53,6 @@ server {
 
    location / {
         proxy_pass http://127.0.0.1:8082;
-=======
-# Cria diretorio do certificado
-mkdir -p /etc/nginx/ssl
-
-# CREATE CERT CONF FILE
-cat <<EOF | tee jfrog.pauloxmachado.cloud.cnf
-[req]
-distinguished_name = req_distinguished_name
-x509_extensions = v3_req
-prompt = no
-[req_distinguished_name]
-C = BR
-ST = RN
-L = Natal
-O = Paulo Xavier
-OU = Setor de TI
-CN = example.com
-[v3_req]
-keyUsage = critical, digitalSignature, keyAgreement
-extendedKeyUsage = serverAuth
-subjectAltName = @alt_names
-[alt_names]
-DNS.1 = www.jfrog.pauloxmachado.cloud
-DNS.2 = jfrog.pauloxmachado.cloud
-EOF
-
-# Gera certificado autoassinado a partir de configurações previas
-
-openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt -config jfrog.pauloxmachado.cloud.cnf -sha256
-
-rm -rf jfrog.pauloxmachado.cloud.cnf
-
-# Configura proxy reverso
-
-cat <<EOF | tee /etc/nginx/sites-available/jfrog.conf
-server {
-   listen 80;
-   server_name jfrog.pauloxmachado.cloud;
-   return 301 https://jfrog.pauloxmachado.cloud\$request_uri;
- }
-
-server {
-   listen 443 ssl;
-   server_name jfrog.pauloxmachado.cloud;
-   ssl_certificate  /etc/nginx/ssl/nginx.crt;
-   ssl_certificate_key  /etc/nginx/ssl/nginx.key;
-   ssl_prefer_server_ciphers on;
-
-   location / {
-        proxy_pass http://localhost:8082;
->>>>>>> refs/remotes/origin/main
 
         proxy_set_header        Host \$host;
         proxy_set_header        X-Real-IP \$remote_addr;
